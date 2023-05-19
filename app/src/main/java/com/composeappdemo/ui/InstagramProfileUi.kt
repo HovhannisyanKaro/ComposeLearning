@@ -1,5 +1,6 @@
 package com.composeappdemo.ui
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,24 +15,36 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,13 +53,25 @@ import com.composeappdemo.R
 
 @Composable
 fun ProfileScreen() {
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(name = "Hovhannisyan Karo")
         Spacer(modifier = Modifier.size(16.dp))
         ProfileSection()
         Spacer(modifier = Modifier.size(16.dp))
-        ButtonSection()
+        ButtonSection(modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.size(16.dp))
+        HighlightSection(highlights = listOf(StoryHighlight(), StoryHighlight(), StoryHighlight(), StoryHighlight(), StoryHighlight()))
+        Spacer(modifier = Modifier.height(10.dp))
+        PostTabView(tabs = listOf(ImageWithText(), ImageWithText(), ImageWithText(), ImageWithText(), ImageWithText(), ImageWithText()), onTabSelected = { selectedTabIndex = it })
+        when (selectedTabIndex) {
+            0 -> {
+                PostSection(modifier = Modifier.fillMaxWidth( ), posts = listOf(painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny)))
+            }
+        }
+
     }
 }
 
@@ -140,19 +165,20 @@ fun ButtonSection(modifier: Modifier = Modifier) {
     val minWidth = 95.dp
     val height = 30.dp
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = modifier) {
-        ActionButton(text = "Following", icon = Icons.Default.KeyboardArrowDown, modifier = modifier
+        ActionButton(text = "Following", icon = Icons.Default.KeyboardArrowDown, modifier = Modifier
             .defaultMinSize(minWidth = minWidth)
             .height(height))
 
-        ActionButton(text = "Message", modifier = modifier
+        ActionButton(text = "Message", modifier = Modifier
             .defaultMinSize(minWidth = minWidth)
             .height(height))
 
-        ActionButton(text = "Email", modifier = modifier
+        ActionButton(text = "Email", modifier = Modifier
             .defaultMinSize(minWidth = minWidth)
             .height(height))
 
-        ActionButton(icon = Icons.Default.KeyboardArrowDown, modifier = modifier.size(height)
+        ActionButton(icon = Icons.Default.KeyboardArrowDown, modifier = Modifier
+            .size(height)
             .defaultMinSize(minWidth = minWidth)
             .height(height))
     }
@@ -171,3 +197,49 @@ fun ActionButton(modifier: Modifier = Modifier, text: String? = null, icon: Imag
         }
     }
 }
+
+@Composable
+fun HighlightSection(modifier: Modifier = Modifier, highlights: List<StoryHighlight>) {
+    LazyRow(modifier = modifier) {
+        items(highlights.size) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.padding(end = 15.dp)) {
+                RoundImage(image = painterResource(id = highlights[it].imageResId), modifier = Modifier.size(70.dp))
+                Text(text = highlights[it].text, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
+            }
+        }
+    }
+}
+
+@Composable
+fun PostTabView(modifier: Modifier = Modifier, tabs: List<ImageWithText>, onTabSelected: (selectedIndex: Int) -> Unit) {
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+    val inactiveColor = Color(0xFF777777)
+    TabRow(selectedTabIndex = selectedTabIndex, contentColor = Color.Black, modifier = modifier) {
+        tabs.forEachIndexed { index, imageWithText ->
+            Tab(selected = selectedTabIndex == index, selectedContentColor = Color.Black, unselectedContentColor = inactiveColor, onClick = {
+                selectedTabIndex = index
+                onTabSelected(index)
+            }) {
+                Icon(painter = painterResource(id = imageWithText.imageResId), contentDescription = imageWithText.text, tint = if (selectedTabIndex == index) Color.Black else inactiveColor, modifier = Modifier
+                    .padding(10.dp)
+                    .size(12.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun PostSection(posts: List<Painter>, modifier: Modifier = Modifier) {
+    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = modifier.scale(1.01f)) {
+        items(posts.size) {
+            Image(painter = posts[it], contentDescription = null, contentScale = ContentScale.Crop, modifier = modifier
+                .aspectRatio(1f)
+                .border(width = 1.dp, color = Color.White))
+        }
+    }
+}
+
+data class StoryHighlight(@DrawableRes val imageResId: Int = R.drawable.image_funny, val text: String = "Title")
+data class ImageWithText(@DrawableRes val imageResId: Int = R.drawable.ic_search, val text: String = "Text")
