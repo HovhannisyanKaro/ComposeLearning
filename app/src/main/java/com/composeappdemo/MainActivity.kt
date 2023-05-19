@@ -101,6 +101,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composeappdemo.ui.HomeScreen
+import com.composeappdemo.ui.ProfileScreen
 import com.composeappdemo.ui.theme.ComposeAppDemoTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -115,6 +116,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instagramProfileUI()
     }
 
     /**
@@ -604,7 +606,9 @@ class MainActivity : ComponentActivity() {
      * Instagram Profile UI
      */
     fun instagramProfileUI() {
-
+        setContent {
+            ProfileScreen()
+        }
     }
 }
 
