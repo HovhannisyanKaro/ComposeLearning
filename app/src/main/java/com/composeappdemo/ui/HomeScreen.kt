@@ -21,9 +21,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,8 +62,8 @@ fun GreetingSection(name: String = "Karo") {
         .fillMaxWidth()
         .padding(15.dp)) {
         Column(verticalArrangement = Arrangement.Center) {
-            Text(text = "Good morning, $name", style = MaterialTheme.typography.headlineSmall)
-            Text(text = "We wish you have a good day", style = MaterialTheme.typography.bodySmall)
+            Text(text = "Good morning, $name", style = MaterialTheme.typography.h3)
+            Text(text = "We wish you have a good day", style = MaterialTheme.typography.body1)
         }
         Icon(painter = painterResource(R.drawable.ic_search), contentDescription = "Search", tint = Color.Red, modifier = Modifier.size(24.dp))
     }
@@ -100,8 +100,8 @@ fun CurrentMeditation(color: Color = Color.Red) {
         .padding(horizontal = 16.dp, vertical = 20.dp)
         .fillMaxWidth()) {
         Column(verticalArrangement = Arrangement.Center) {
-            Text(text = "Daily Thought", style = MaterialTheme.typography.headlineSmall)
-            Text(text = "Meditation 3-10 min", style = MaterialTheme.typography.bodySmall, color = Color.White)
+            Text(text = "Daily Thought", style = MaterialTheme.typography.h3)
+            Text(text = "Meditation 3-10 min", style = MaterialTheme.typography.body1, color = Color.White)
         }
         Box(contentAlignment = Alignment.Center, modifier = Modifier
             .size(40.dp)
@@ -116,7 +116,7 @@ fun CurrentMeditation(color: Color = Color.Red) {
 @Composable
 fun FeatureSection(feature: List<Feature>) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Featured", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(16.dp))
+        Text(text = "Featured", style = MaterialTheme.typography.h3, modifier = Modifier.padding(16.dp))
         LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 100.dp), modifier = Modifier.fillMaxHeight()) {
             items(feature.size) {
                 FeatureItem(feature = feature[it])
@@ -179,7 +179,7 @@ fun FeatureItem(feature: Feature) {
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)) {
-            Text(text = feature.title, style = MaterialTheme.typography.headlineMedium, lineHeight = 26.sp, modifier = Modifier.align(Alignment.TopStart))
+            Text(text = feature.title, style = MaterialTheme.typography.h2, lineHeight = 26.sp, modifier = Modifier.align(Alignment.TopStart))
             Icon(painter = painterResource(id = feature.iconId), contentDescription = feature.title, tint = Color.White, modifier = Modifier.align(Alignment.BottomStart))
             Text(text = "Start", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold, modifier = Modifier
                 .clickable {

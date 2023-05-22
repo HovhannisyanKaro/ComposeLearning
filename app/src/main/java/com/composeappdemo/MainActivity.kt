@@ -36,13 +36,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -637,6 +636,17 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    /**
+     * Bottom Navigation With Badges
+     */
+
+
+    fun bottomNavigationWithBadges() {
+        setContent {
+
+        }
+    }
 }
 
 @Composable
@@ -747,7 +757,7 @@ fun Timer(totalTime: Long, handleColor: Color, inactiveBarColor: Color, activeBa
             } else {
                 isTimerRunning = !isTimerRunning
             }
-        }, modifier = Modifier.align(Alignment.BottomCenter), colors = ButtonDefaults.buttonColors(containerColor = if (!isTimerRunning || currentTime <= 0L) Color.Green else Color.Red)) {
+        }, modifier = Modifier.align(Alignment.BottomCenter), colors = ButtonDefaults.buttonColors(contentColor = if (!isTimerRunning || currentTime <= 0L) Color.Green else Color.Red)) {
             Text(text = if (isTimerRunning && currentTime >= 0L) "Stop" else if (!isTimerRunning && currentTime >= 0L) "Start" else "Restart")
         }
     }

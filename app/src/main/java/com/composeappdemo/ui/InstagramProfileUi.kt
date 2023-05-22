@@ -20,13 +20,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,7 +67,7 @@ fun ProfileScreen() {
         PostTabView(tabs = listOf(ImageWithText(), ImageWithText(), ImageWithText(), ImageWithText(), ImageWithText(), ImageWithText()), onTabSelected = { selectedTabIndex = it })
         when (selectedTabIndex) {
             0 -> {
-                PostSection(modifier = Modifier.fillMaxWidth( ), posts = listOf(painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny)))
+                PostSection(modifier = Modifier.fillMaxWidth(), posts = listOf(painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny)))
             }
         }
     }
