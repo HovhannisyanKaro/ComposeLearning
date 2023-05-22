@@ -1,5 +1,6 @@
 package com.composeappdemo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
@@ -34,14 +35,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -70,10 +72,13 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -90,6 +95,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ChainStyle
@@ -105,8 +111,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.composeappdemo.ui.BottomNavItem
+import com.composeappdemo.ui.BottomNavigationBar
 import com.composeappdemo.ui.HomeScreen
 import com.composeappdemo.ui.Navigation
+import com.composeappdemo.ui.NavigationForBottomNavigationWithBadges
 import com.composeappdemo.ui.ProfileScreen
 import com.composeappdemo.ui.theme.ComposeAppDemoTheme
 import kotlinx.coroutines.delay
@@ -122,7 +131,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        animatedSplashScreen()
+        bottomNavigationWithBadges()
     }
 
     /**
@@ -640,12 +649,55 @@ class MainActivity : ComponentActivity() {
     /**
      * Bottom Navigation With Badges
      */
-
-
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     fun bottomNavigationWithBadges() {
         setContent {
+            val navController = rememberNavController()
 
+            Scaffold(bottomBar = {
+                BottomNavigationBar(items = listOf(BottomNavItem(badgeCount = 100, route = "home"), BottomNavItem(route = "chat"), BottomNavItem(route = "settings")), navController = navController, onItemClick = {
+                    navController.navigate(it.route)
+                })
+            }) {
+                NavigationForBottomNavigationWithBadges(navController)
+            }
         }
+    }
+
+    /**
+     * Multi-Layer Parallax Scroll Effect
+     */
+    fun multiLayerParallaxScrollEffect() {
+
+        setContent {
+            //Not Need at this time !!!
+            LocalConfiguration.current.screenWidthDp
+            LocalConfiguration.current.screenHeightDp
+
+            Brush.verticalGradient(listOf(Color(0xFF101010), Color(0xFF101099)))
+
+            //մենք կարող ենք հասկանալ թե user ը ինչքան արագ ա scroll անում, calculate անենք դրա հետ և ինչ որ բան կազմակերպենք ըստ ստացված արժեքի
+            val nestedScrollConnection = object : NestedScrollConnection {
+                override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+                    return super.onPostFling(consumed, available)
+                }
+
+                override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset {
+                    return super.onPostScroll(consumed, available, source)
+                }
+
+                override suspend fun onPreFling(available: Velocity): Velocity {
+                    return super.onPreFling(available)
+                }
+
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    //before scroll processed
+                    val delta = available.y
+                    return super.onPreScroll(available, source)
+                }
+            }
+        }
+
     }
 }
 
