@@ -101,6 +101,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composeappdemo.ui.HomeScreen
+import com.composeappdemo.ui.Navigation
 import com.composeappdemo.ui.ProfileScreen
 import com.composeappdemo.ui.theme.ComposeAppDemoTheme
 import kotlinx.coroutines.delay
@@ -116,7 +117,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        instagramProfileUI()
+        navigation()
     }
 
     /**
@@ -608,6 +609,12 @@ class MainActivity : ComponentActivity() {
     fun instagramProfileUI() {
         setContent {
             ProfileScreen()
+        }
+    }
+
+    fun navigation() {
+        setContent {
+            Navigation()
         }
     }
 }

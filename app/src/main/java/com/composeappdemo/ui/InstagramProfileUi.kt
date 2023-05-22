@@ -50,7 +50,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composeappdemo.R
 
-
 @Composable
 fun ProfileScreen() {
     var selectedTabIndex by remember {
@@ -71,7 +70,6 @@ fun ProfileScreen() {
                 PostSection(modifier = Modifier.fillMaxWidth( ), posts = listOf(painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny), painterResource(id = R.drawable.image_funny)))
             }
         }
-
     }
 }
 
