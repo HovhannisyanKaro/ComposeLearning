@@ -43,7 +43,7 @@ class TestRepositoryImpl(val api: TestApi? = null) : TestRepository {
 
 class TestViewModel(val testRepository: TestRepository) : ViewModel(), IModel<TestState, TestIntent> {
     /**
-     * or just inject in whatever viewModel that you want
+     * or just inject whatever viewModel that you want
      */
 //    private val testRepository: TestRepository by inject()
 
@@ -163,7 +163,6 @@ interface IModel<S : IState, I : IIntent> {
 interface IState {}
 
 interface IIntent {}
-
 
 abstract class SomeClassThatMakeNetworkRequests<ResultType, RequestType> {
 
